@@ -5,6 +5,7 @@ const routes = require('./routes');
 const cors = require('cors');
 
 app.use(express.json());
+app.disable('x-powered-by');
 app.use(cors());
 app.use(routes);
 

@@ -3,8 +3,8 @@ const connection = require('../database/connection');
 module.exports = {
   async create(request, response) {
     const { name, description, value, measure, store_id } = request.body;
-    const token = request.headers['authorization'];
-    const [id] = await connection('store').insert({
+
+    const [id] = await connection('product').insert({
       name,
       description,
       value,
@@ -15,12 +15,16 @@ module.exports = {
     response.json({ id });
   },
   async index(request, response) {
-    const token = request.headers['authorization'];
-    const products = await connection('product')
-      .select('*')
-      .where('store_id', 'xxx');
+    const store_id = request.params.id;
+    try {
+      const products = await connection('product')
+        .select('*')
+        .where('store_id', store_id);
 
-    response.json(stores);
+      return response.json(products);
+    } catch (error) {
+      console.log(error);
+    }
   },
   async delete(request, response) {
     await connection('product').del().where('id', request.body.id);
