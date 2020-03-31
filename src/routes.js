@@ -11,21 +11,29 @@ const cartProductController = require('./controllers/CartProductController');
 const tokenMiddleware = require('./middlewares/TokenMiddleware');
 const cartMiddleware = require('./middlewares/CartMiddleware');
 const cartProductMiddleware = require('./middlewares/CartProductMiddleware');
+const storeMiddleware = require('./middlewares/StoreMiddleware');
+const productMiddleware = require('./middlewares/ProductMiddleware');
 
 routes.post('/users', userController.create);
 routes.get('/users', userController.index);
 
 routes.post('/sessions', sessionController.create);
 
-routes.post('/stores', tokenMiddleware.verify, storeController.create);
+routes.post(
+  '/stores',
+  tokenMiddleware.verify,
+  storeMiddleware.validateOwner,
+  storeController.create
+);
 routes.get('/stores', storeController.index);
 
 routes.post(
-  '/stores/:id/products',
+  '/stores/:store_id/products',
   tokenMiddleware.verify,
+  productMiddleware.validateStoreOwner,
   productController.create
 );
-routes.get('/stores/:id/products', productController.index);
+routes.get('/stores/:store_id/products', productController.index);
 
 routes.post(
   '/stores/:id/carts',
