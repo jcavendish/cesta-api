@@ -25,7 +25,7 @@ module.exports = {
     response.json(stores);
   },
   async delete(request, response) {
-    const id = request.param.id;
+    const id = request.params.id;
     await connection('store').del().where('id', id);
 
     response.status(204).send();
