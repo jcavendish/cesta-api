@@ -25,10 +25,10 @@ module.exports = {
     response.json(stores);
   },
   async delete(request, response) {
-    const id = request.params.id;
-    await connection('store').del().where('id', id);
+    const { store_id } = request.params;
+    await connection('store').del().where('id', store_id);
 
-    response.status(204).send();
+    response.sendStatus(204);
   },
   async update(request, response) {
     const { id, name, email, whatsapp, city, uf } = request.body;

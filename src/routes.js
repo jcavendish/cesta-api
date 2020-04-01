@@ -22,6 +22,12 @@ routes.post('/sessions', sessionController.create);
 
 routes.post('/stores', tokenMiddleware.verify, storeController.create);
 routes.get('/stores', storeController.index);
+routes.delete(
+  '/stores/:store_id',
+  tokenMiddleware.verify,
+  storeMiddleware.validateOwner,
+  storeController.delete
+);
 
 routes.get('/profile', tokenMiddleware.verify, profileController.index);
 

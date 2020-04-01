@@ -3,9 +3,12 @@ const connection = require('../database/connection');
 module.exports = {
   async validateOwner(request, response, next) {
     const { user_id } = request;
-    const { id } = request.params;
+    const { store_id } = request.params;
     try {
-      const store = await connection('store').select('*').where('id', id);
+      const store = await connection('store')
+        .select('*')
+        .where('id', store_id)
+        .first();
 
       if (store.user_id !== user_id) {
         return response.status(403).send('Operation not permitted');
