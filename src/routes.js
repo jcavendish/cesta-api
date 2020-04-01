@@ -19,12 +19,7 @@ routes.get('/users', userController.index);
 
 routes.post('/sessions', sessionController.create);
 
-routes.post(
-  '/stores',
-  tokenMiddleware.verify,
-  storeMiddleware.validateOwner,
-  storeController.create
-);
+routes.post('/stores', tokenMiddleware.verify, storeController.create);
 routes.get('/stores', storeController.index);
 
 routes.post(
@@ -34,6 +29,12 @@ routes.post(
   productController.create
 );
 routes.get('/stores/:store_id/products', productController.index);
+routes.delete(
+  '/stores/:store_id/products/:product_id',
+  tokenMiddleware.verify,
+  productMiddleware.validateStoreOwner,
+  productController.delete
+);
 
 routes.post(
   '/stores/:id/carts',

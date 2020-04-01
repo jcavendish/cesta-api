@@ -3,6 +3,7 @@ const connection = require('../database/connection');
 module.exports = {
   async create(request, response) {
     const { name, description, value, measure } = request.body;
+
     const { store_id } = request.params;
 
     const [id] = await connection('product').insert({
@@ -16,7 +17,7 @@ module.exports = {
     response.json({ id });
   },
   async index(request, response) {
-    const store_id = request.params.id;
+    const { store_id } = request.params;
     try {
       const products = await connection('product')
         .select('*')
@@ -28,7 +29,7 @@ module.exports = {
     }
   },
   async delete(request, response) {
-    await connection('product').del().where('id', request.body.id);
+    await connection('product').del().where('id', request.params.product_id);
 
     response.status(204).send();
   },

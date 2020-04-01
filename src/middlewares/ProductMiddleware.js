@@ -5,9 +5,14 @@ module.exports = {
     const { user_id } = request;
     const { store_id } = request.params;
     try {
-      const store = await connection('store').select('*').where('id', store_id);
-
+      const store = await connection('store')
+        .select('*')
+        .where('id', store_id)
+        .first();
+      console.log(store);
+      console.log(user_id);
       if (store.user_id !== user_id) {
+        console.log(error);
         return response.status(403).send('Operation not permitted');
       }
       next();
