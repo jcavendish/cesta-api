@@ -4,6 +4,7 @@ const routes = express.Router();
 const userController = require('./controllers/UserController');
 const sessionController = require('./controllers/SessionController');
 const storeController = require('./controllers/StoreController');
+const profileController = require('./controllers/ProfileController');
 const cartController = require('./controllers/CartController');
 const productController = require('./controllers/ProductController');
 const cartProductController = require('./controllers/CartProductController');
@@ -21,6 +22,8 @@ routes.post('/sessions', sessionController.create);
 
 routes.post('/stores', tokenMiddleware.verify, storeController.create);
 routes.get('/stores', storeController.index);
+
+routes.get('/profile', tokenMiddleware.verify, profileController.index);
 
 routes.post(
   '/stores/:store_id/products',
